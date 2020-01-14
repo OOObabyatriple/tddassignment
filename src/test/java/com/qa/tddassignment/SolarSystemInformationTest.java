@@ -35,5 +35,32 @@ class SolarSystemInformationTest {
         assertEquals(expectedoutput,result);
     }
 
+    @Test
+    public void userid_correct_format(){
+        //arrange
+        String userid="AS9567";
+        String password="password";
+        SolarSystemInformation solarSystemInformation=new SolarSystemInformation(userid,password);
+
+        //act
+        String result=solarSystemInformation.getUserid();
+
+        //assert
+        assertTrue(result.matches("^[A-Z]{2}[0-9]{4}"));
+    }
+
+    @Test
+    public void userid_incorrect_format(){
+        //arrange
+        String userid="ASA95677";
+        String password="password";
+        SolarSystemInformation solarSystemInformation=new SolarSystemInformation(userid,password);
+
+        //act
+        String result=solarSystemInformation.getUserid();
+
+        //assert
+        assertFalse(result.matches("^[A-Z]{2}[0-9]{4}"));
+    }
 
     }

@@ -1,5 +1,6 @@
 package com.qa.tddassignment;
 
+import java.util.regex.*;
 import java.math.BigDecimal;
 
 public class SolarSystemInformation {
@@ -18,7 +19,10 @@ public class SolarSystemInformation {
 
     public SolarSystemInformation(String userid, String password) {
         if (userid.length()==6){
-            this.userid=userid;
+            if(userid.matches("^[A-Z]{2}[0-9]{4}")){
+                this.userid=userid;
+            }
+            else this.userid="Pattern no match";
         }
         else{
             this.userid="Not allowed";
