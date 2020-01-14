@@ -19,7 +19,7 @@ public class SolarSystemInformation {
 
     public SolarSystemInformation(String userid, String password) {
         if (userid.length()==6){
-            if(userid.matches("^[A-Z]{2}[0-9]{4}")){
+            if(userid.matches("^[A-Z]{2}[0-9]{4}(?!0000)")){
                 this.userid=userid;
             }
             else this.userid="Pattern no match";
@@ -36,8 +36,18 @@ public class SolarSystemInformation {
             setMass(BigDecimal.ZERO);
 
         }
-        this.password=password;
-    }
+        //if(password.length()>=10){
+            if(password.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$")){
+                this.password=password;
+            }
+            else{
+                this.password="Not allowed";
+            }
+        }
+        //else{
+          //  this.password="Not allowed";
+        //}
+    //}
 
     public String getUserid() {
         return userid;
