@@ -1,5 +1,7 @@
 package com.qa.tddassignment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.*;
 import java.math.BigDecimal;
 
@@ -36,18 +38,21 @@ public class SolarSystemInformation {
             setMass(BigDecimal.ZERO);
 
         }
-        //if(password.length()>=10){
             if(password.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$")){
                 this.password=password;
             }
             else{
                 this.password="Not allowed";
+                setAstronomicalObjectClassificationCode("0");
+                setObjectType("0");
+                setObjectName("0");
+                setExists(false);
+                setOrbitalPeriod(0);
+                setRadius(BigDecimal.ZERO);
+                setSemiMajorAxis(BigDecimal.ZERO);
+                setMass(BigDecimal.ZERO);
             }
         }
-        //else{
-          //  this.password="Not allowed";
-        //}
-    //}
 
     public String getUserid() {
         return userid;
@@ -66,18 +71,21 @@ public class SolarSystemInformation {
     }
 
     public String getAstronomicalObjectClassificationCode() {
+
         return astronomicalObjectClassificationCode;
     }
 
-    public void setAstronomicalObjectClassificationCode(String astronomicalObjectClassificationCode) {
+    private void setAstronomicalObjectClassificationCode(String astronomicalObjectClassificationCode) {
         this.astronomicalObjectClassificationCode = astronomicalObjectClassificationCode;
     }
 
     public String getObjectType() {
-        return objectType;
+        return this.objectType;
     }
 
-    public void setObjectType(String objectType) {
+    private void setObjectType(String objectType) {
+
+
         this.objectType = objectType;
     }
 
@@ -85,7 +93,7 @@ public class SolarSystemInformation {
         return objectName;
     }
 
-    public void setObjectName(String objectName) {
+    private void setObjectName(String objectName) {
         this.objectName = objectName;
     }
 
@@ -93,7 +101,7 @@ public class SolarSystemInformation {
         return exists;
     }
 
-    public void setExists(boolean exists) {
+    private void setExists(boolean exists) {
         this.exists = exists;
     }
 
@@ -101,7 +109,7 @@ public class SolarSystemInformation {
         return orbitalPeriod;
     }
 
-    public void setOrbitalPeriod(int orbitalPeriod) {
+    private void setOrbitalPeriod(int orbitalPeriod) {
         this.orbitalPeriod = orbitalPeriod;
     }
 
@@ -109,7 +117,7 @@ public class SolarSystemInformation {
         return radius;
     }
 
-    public void setRadius(BigDecimal radius) {
+    private void setRadius(BigDecimal radius) {
         this.radius = radius;
     }
 
@@ -117,7 +125,7 @@ public class SolarSystemInformation {
         return semiMajorAxis;
     }
 
-    public void setSemiMajorAxis(BigDecimal semiMajorAxis) {
+    private void setSemiMajorAxis(BigDecimal semiMajorAxis) {
         this.semiMajorAxis = semiMajorAxis;
     }
 
@@ -125,8 +133,13 @@ public class SolarSystemInformation {
         return mass;
     }
 
-    public void setMass(BigDecimal mass) {
+    private void setMass(BigDecimal mass) {
         this.mass = mass;
     }
 
+    public String initialiseAOCDetails(String astronomicalObjectClassificationCode){
+        String objecttypeinitial=astronomicalObjectClassificationCode.substring(0,1);
+
+    return null;
+    }
 }
