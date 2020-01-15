@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SolarSystemInformationTest {
 
     @Test
-    public void userid_correct_length() {
+    public void userid_correct_length() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
@@ -23,7 +23,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void userid_incorrect_length() {
+    public void userid_incorrect_length() throws InvalidInputException {
         //arrange
         String userid = "ASA95677";
         String password = "Password1!";
@@ -38,7 +38,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void userid_correct_format() {
+    public void userid_correct_format() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
@@ -52,7 +52,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void userid_incorrect_format() {
+    public void userid_incorrect_format() throws InvalidInputException {
         //arrange
         String userid = "ASA95677";
         String password = "Password1!";
@@ -66,7 +66,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void userid_0000_format() {
+    public void userid_0000_format() throws InvalidInputException {
         //arrange
         String userid = "ASA0000";
         String password = "Password1!";
@@ -80,7 +80,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void password_correct_length() {
+    public void password_correct_length() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
@@ -95,7 +95,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void password_incorrect_length() {
+    public void password_incorrect_length() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Passw1!";
@@ -110,7 +110,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void password_correct_format() {
+    public void password_correct_format() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Password!1";
@@ -126,7 +126,7 @@ class SolarSystemInformationTest {
     }
 
     @Test
-    public void password_incorrect_format() {
+    public void password_incorrect_format() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Password111";
@@ -178,23 +178,9 @@ class SolarSystemInformationTest {
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
         String AOC = "A99942Apo138MM";
 
-        //act
+        //assert
         Assertions.assertThrows(InvalidInputException.class, () -> {
                     String result = solarSystemInformation.initialiseAOCDetails(AOC);
                 });
-
-    }
-    @Test
-    public void test_object_type_is_valid() {
-        //arrange
-        String userid = "AS9567";
-        String password = "Password1!";
-        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
-        String expectedoutput = "";
-        //act
-        String result = solarSystemInformation.getUserid();
-
-        //assert
-        assertEquals(expectedoutput, result);
     }
     }

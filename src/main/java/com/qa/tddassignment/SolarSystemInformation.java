@@ -19,7 +19,7 @@ public class SolarSystemInformation {
     private BigDecimal mass;
 
 
-    public SolarSystemInformation(String userid, String password) {
+    public SolarSystemInformation(String userid, String password,WebService webService) throws InvalidInputException {
         if (userid.length()==6){
             if(userid.matches("^[A-Z]{2}[0-9]{4}(?!0000)")){
                 this.userid=userid;
@@ -44,7 +44,7 @@ public class SolarSystemInformation {
             else{
                 this.password="Not allowed";
                 setAstronomicalObjectClassificationCode("0");
-                setObjectType("0");
+                setObjectType("Not allowed");
                 setObjectName("0");
                 setExists(false);
                 setOrbitalPeriod(0);
@@ -79,15 +79,22 @@ public class SolarSystemInformation {
         this.astronomicalObjectClassificationCode = astronomicalObjectClassificationCode;
     }
 
-    public String getObjectType() {
-        return this.objectType;
+    public String getObjectType() throws InvalidInputException {
+        List<String> types=Arrays.asList("Star","Planet","Moon","Dwarf Planet","Asteroid","Comet","Not allowed");
+        if(types.contains(objectType)){
+            return this.objectType;
+        }
+        else{
+            throw new InvalidInputException("Object type invalid");
+        }
     }
 
-    private void setObjectType(String objectType) {
-        this.objectType = objectType;
+    private void setObjectType(String objectType){
+            this.objectType = objectType;
     }
 
     public String getObjectName() {
+
         return objectName;
     }
 
@@ -140,7 +147,6 @@ public class SolarSystemInformation {
     public String initialiseAOCDetails(String astronomicalObjectClassificationCode) throws InvalidInputException {
         if(astronomicalObjectClassificationCode.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)")){
             return astronomicalObjectClassificationCode;
-
         }
         else throw new InvalidInputException("AOC: Invalid Format");
     }
