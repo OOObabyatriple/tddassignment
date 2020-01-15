@@ -137,9 +137,13 @@ public class SolarSystemInformation {
         this.mass = mass;
     }
 
-    public String initialiseAOCDetails(String astronomicalObjectClassificationCode){
-        String objecttypeinitial=astronomicalObjectClassificationCode.substring(0,1);
 
-    return null;
+    //[A-Z]{1}[0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)
+    public String initialiseAOCDetails(String astronomicalObjectClassificationCode) throws InvalidInputException {
+        if(astronomicalObjectClassificationCode.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)")){
+            return astronomicalObjectClassificationCode;
+
+        }
+        else throw new InvalidInputException("Not Allowed");
     }
 }

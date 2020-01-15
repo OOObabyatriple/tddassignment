@@ -139,4 +139,34 @@ class SolarSystemInformationTest {
         assertEquals(expectedoutput, result);
         assertFalse(result.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$"));
     }
-}
+    @Test
+    public void AOC_format_correct() throws InvalidInputException {
+        //arrange
+        String userid = "AS9567";
+        String password = "Password1!";
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
+        String expectedoutput = "PMer58M";
+
+        //act
+        String result = solarSystemInformation.initialiseAOCDetails("PMer58M");
+
+        //assert
+        assertEquals(expectedoutput, result);
+        assertTrue(result.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)"));
+    }
+    @Test
+    public void AOC_format_correct_two() throws InvalidInputException {
+        //arrange
+        String userid = "AS9567";
+        String password = "Password1!";
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
+        String expectedoutput = "A99942Apo138M";
+
+        //act
+        String result = solarSystemInformation.initialiseAOCDetails("A99942Apo138M");
+
+        //assert
+        assertEquals(expectedoutput, result);
+        assertTrue(result.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)"));
+    }
+    }
