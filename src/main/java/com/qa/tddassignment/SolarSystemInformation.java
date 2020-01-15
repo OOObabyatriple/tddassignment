@@ -1,9 +1,9 @@
 package com.qa.tddassignment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SolarSystemInformation {
 
@@ -84,8 +84,6 @@ public class SolarSystemInformation {
     }
 
     private void setObjectType(String objectType) {
-
-
         this.objectType = objectType;
     }
 
@@ -144,6 +142,6 @@ public class SolarSystemInformation {
             return astronomicalObjectClassificationCode;
 
         }
-        else throw new InvalidInputException("Not Allowed");
+        else throw new InvalidInputException("AOC: Invalid Format");
     }
 }

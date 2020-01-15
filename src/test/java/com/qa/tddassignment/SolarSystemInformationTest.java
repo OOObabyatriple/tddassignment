@@ -1,5 +1,6 @@
 package com.qa.tddassignment;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -145,13 +146,13 @@ class SolarSystemInformationTest {
         String userid = "AS9567";
         String password = "Password1!";
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
-        String expectedoutput = "PMer58M";
+        String AOC = "PMer58M";
 
         //act
-        String result = solarSystemInformation.initialiseAOCDetails("PMer58M");
+        String result = solarSystemInformation.initialiseAOCDetails(AOC);
 
         //assert
-        assertEquals(expectedoutput, result);
+        assertEquals(AOC, result);
         assertTrue(result.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)"));
     }
     @Test
@@ -160,13 +161,40 @@ class SolarSystemInformationTest {
         String userid = "AS9567";
         String password = "Password1!";
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
-        String expectedoutput = "A99942Apo138M";
+        String AOC = "A99942Apo138M";
 
         //act
-        String result = solarSystemInformation.initialiseAOCDetails("A99942Apo138M");
+        String result = solarSystemInformation.initialiseAOCDetails(AOC);
+
+        //assert
+        assertEquals(AOC, result);
+        assertTrue(result.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)"));
+    }
+    @Test
+    public void AOC_incorrect_format() throws  InvalidInputException{
+        //arrange
+        String userid = "AS9567";
+        String password = "Password1!";
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
+        String AOC = "A99942Apo138MM";
+
+        //act
+        Assertions.assertThrows(InvalidInputException.class, () -> {
+                    String result = solarSystemInformation.initialiseAOCDetails(AOC);
+                });
+
+    }
+    @Test
+    public void test_object_type_is_valid() {
+        //arrange
+        String userid = "AS9567";
+        String password = "Password1!";
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password);
+        String expectedoutput = "";
+        //act
+        String result = solarSystemInformation.getUserid();
 
         //assert
         assertEquals(expectedoutput, result);
-        assertTrue(result.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)"));
     }
     }
