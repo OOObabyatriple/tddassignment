@@ -19,19 +19,10 @@ class SolarSystemInformationTest {
         String password = "Password1!";
         webService = createMock(IWebService.class);
         expect(webService.authenticate(userid, password)).andReturn(true);
-        //expect(webService.getStatusInfo(anyString())).times(0);
         replay(webService);
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        //String unexpectedObjectType = "Not Allowed";
-       // String unexpectedObjectName = "Not Allowed";
-
-        //act
-        //String resultObjectType = solarSystemInformation.getObjectType();
-       // String resultObjectName = solarSystemInformation.getObjectName();
 
         //assert
-        //assertNotEquals(unexpectedObjectName,resultObjectName);
-        //assertNotEquals(unexpectedObjectType,resultObjectType);
         verify(webService);
     }
 
@@ -56,16 +47,17 @@ class SolarSystemInformationTest {
 
     @Test
     public void userid_correct_format() throws InvalidInputException {
+
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid, password)).andReturn(true);
+        replay(webService);
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
 
-        //act
-        String result = solarSystemInformation.getUserid();
-
         //assert
-        assertTrue(result.matches("^[A-Z]{2}[0-9]{4}"));
+        verify(webService);
     }
 
     @Test
@@ -109,14 +101,13 @@ class SolarSystemInformationTest {
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid, password)).andReturn(true);
+        replay(webService);
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String expectedoutput = "Password1!";
-
-        //act
-        String result = solarSystemInformation.getPassword();
 
         //assert
-        assertEquals(expectedoutput, result);
+        verify(webService);
     }
 
     @Test
@@ -143,15 +134,16 @@ class SolarSystemInformationTest {
         //arrange
         String userid = "AS9567";
         String password = "Password!1";
-        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String expectedoutput = "Password!1";
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid, password)).andReturn(true);
+        replay(webService);
 
-        //act
-        String result = solarSystemInformation.getPassword();
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
+
 
         //assert
-        assertEquals(expectedoutput, result);
-        assertTrue(result.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$"));
+        verify(webService);
+
     }
 
     @Test
@@ -173,71 +165,66 @@ class SolarSystemInformationTest {
         assertEquals(expectedObjectType, resultObjectType);
     }
 
-    @Test
-    public void authentication_carried_out() throws InvalidInputException {
-        //arrange
-        String userid = "AS9567";
-        String password = "Password1!";
-        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String expectedObjectType = "Not Allowed";
-        String expectedObjectName = "Not Allowed";
-
-        //act
-        String resultObjectType = solarSystemInformation.getObjectType();
-        String resultObjectName = solarSystemInformation.getObjectName();
-
-
-        //assert
-        assertEquals(expectedObjectName, resultObjectName);
-        assertEquals(expectedObjectType, resultObjectType);
-    }
 
     @Test
     public void AOC_format_correct() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
-        String password = "Password1!";
-        webService = new HappyWebServiceStub();
-        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String AOC = "PMer58M";
+        String password = "Password!1";
+        String AOC = "A99942Apo138M";
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid,password)).andReturn(true).times(1);
 
-        //act
+        expect(webService.getStatusInfo(anyString())).andReturn("Complete").times(1);
+
+        replay(webService);
+
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
         solarSystemInformation.initialiseAOCDetails(AOC);
-        String result=solarSystemInformation.getAstronomicalObjectClassificationCode();
 
         //assert
-        assertEquals(AOC, result);
-
+        verify(webService);
     }
     @Test
     public void AOC_format_correct_two() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
-        String password = "Password1!";
-        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String AOC = "A99942Apo138M";
+        String password = "Password!1";
+        String AOC = "SSun27TL";
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid, password)).andReturn(true).times(1);
 
-        //act
+        expect(webService.getStatusInfo(anyString())).andReturn("Complete").times(1);
+
+        replay(webService);
+
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password, webService);
         solarSystemInformation.initialiseAOCDetails(AOC);
-        String result=solarSystemInformation.getAstronomicalObjectClassificationCode();
 
         //assert
-        assertEquals(AOC, result);
-        assertTrue(result.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)"));
+        verify(webService);
     }
     @Test
     public void AOC_incorrect_format() throws  InvalidInputException{
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
-        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
         String AOC = "A99942Apo138MM";
 
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid, password)).andReturn(true).times(1);
+
+        replay(webService);
+
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
+        //solarSystemInformation.initialiseAOCDetails(AOC);
 
         //assert
         Assertions.assertThrows(InvalidInputException.class, () -> {
                     String result = solarSystemInformation.initialiseAOCDetails(AOC);
                 });
+
+        verify(webService);
     }
     @Test
     public void get_status_info_called_from_web_service() throws InvalidInputException {

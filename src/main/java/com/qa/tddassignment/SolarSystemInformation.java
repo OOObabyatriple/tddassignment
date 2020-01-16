@@ -3,7 +3,7 @@ package com.qa.tddassignment;
 import java.math.BigDecimal;
 
 public class SolarSystemInformation {
-    private final HappyWebServiceStub webService = new HappyWebServiceStub();
+    private IWebService webService;
     private String userid;
     private String password;
     private String astronomicalObjectClassificationCode;
@@ -17,6 +17,7 @@ public class SolarSystemInformation {
 
 
     public SolarSystemInformation(String userid, String password, IWebService webService) throws InvalidInputException {
+        this.webService=webService;
         if (userid.length() != 6 && !userid.matches("^[A-Z]{2}[0-9]{4}(?!0000)")) {
             AuthentcationFailedSetFieldsToDefaults();
             return;
