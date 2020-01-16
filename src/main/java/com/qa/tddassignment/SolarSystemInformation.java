@@ -1,12 +1,11 @@
 package com.qa.tddassignment;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SolarSystemInformation {
-
+    private final HappyWebServiceStub webService = new HappyWebServiceStub();
     private String userid;
     private String password;
     private String astronomicalObjectClassificationCode;
@@ -19,55 +18,43 @@ public class SolarSystemInformation {
     private BigDecimal mass;
 
 
-    public SolarSystemInformation(String userid, String password,WebService webService) throws InvalidInputException {
-        if (userid.length()==6){
-            if(userid.matches("^[A-Z]{2}[0-9]{4}(?!0000)")){
-                this.userid=userid;
-            }
-            else this.userid="Pattern no match";
-        }
-        else{
-            this.userid="Not allowed";
-            setAstronomicalObjectClassificationCode("0");
-            setObjectType("0");
-            setObjectName("0");
-            setExists(false);
-            setOrbitalPeriod(0);
-            setRadius(BigDecimal.ZERO);
-            setSemiMajorAxis(BigDecimal.ZERO);
-            setMass(BigDecimal.ZERO);
+    public SolarSystemInformation(String userid, String password, IWebService webService) throws InvalidInputException {
+        if (userid.length() != 6 && !userid.matches("^[A-Z]{2}[0-9]{4}(?!0000)")) {
 
+            AuthentcationFailedSetFieldsToDefaults();
+            return;
         }
-            if(password.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$")){
-                this.password=password;
-            }
-            else{
-                this.password="Not allowed";
-                setAstronomicalObjectClassificationCode("0");
-                setObjectType("Not allowed");
-                setObjectName("0");
-                setExists(false);
-                setOrbitalPeriod(0);
-                setRadius(BigDecimal.ZERO);
-                setSemiMajorAxis(BigDecimal.ZERO);
-                setMass(BigDecimal.ZERO);
-            }
+        this.userid = userid;
+
+        if (!password.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$")) {
+            AuthentcationFailedSetFieldsToDefaults();
+            return;
         }
+        this.password = password;
+        if(!webService.authenticate(this.userid, this.password)){
+            AuthentcationFailedSetFieldsToDefaults();
+            return;
+        }
+    }
+
+    private void AuthentcationFailedSetFieldsToDefaults() {
+        setAstronomicalObjectClassificationCode("0");
+        setObjectType("Not Allowed");
+        setObjectName("Not Allowed");
+        setExists(false);
+        setOrbitalPeriod(0);
+        setRadius(BigDecimal.ZERO);
+        setSemiMajorAxis(BigDecimal.ZERO);
+        setMass(BigDecimal.ZERO);
+        return;
+    }
 
     public String getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getAstronomicalObjectClassificationCode() {
@@ -80,14 +67,14 @@ public class SolarSystemInformation {
     }
 
     public String getObjectType() throws InvalidInputException {
-        List<String> types=Arrays.asList("Star","Planet","Moon","Dwarf Planet","Asteroid","Comet","Not allowed");
-        if(types.contains(objectType)){
-            return this.objectType;
+       // List<String> types=Arrays.asList("Star","Planet","Moon","Dwarf Planet","Asteroid","Comet","Not allowed");
+       // if(types.contains(objectType)){
+      //      return this.objectType;
+      //  }
+      //  else{
+       //     throw new InvalidInputException("Object type invalid");
+        return objectType;
         }
-        else{
-            throw new InvalidInputException("Object type invalid");
-        }
-    }
 
     private void setObjectType(String objectType){
             this.objectType = objectType;
@@ -146,7 +133,9 @@ public class SolarSystemInformation {
     //[A-Z]{1}[0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)
     public String initialiseAOCDetails(String astronomicalObjectClassificationCode) throws InvalidInputException {
         if(astronomicalObjectClassificationCode.matches("[A-Z][0-9]{0,8}[A-Z][a-z]{2}[0-9]{1,3}(T|M|B|L|TL)")){
-            return astronomicalObjectClassificationCode;
+            String output=webService.getStatusInfo(astronomicalObjectClassificationCode);
+            return output;
+
         }
         else throw new InvalidInputException("AOC: Invalid Format");
     }
