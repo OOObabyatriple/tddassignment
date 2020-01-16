@@ -1,8 +1,10 @@
 package com.qa.tddassignment;
 
+import org.easymock.internal.matchers.Any;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SolarSystemInformationTest {
@@ -11,17 +13,26 @@ class SolarSystemInformationTest {
 
 
     @Test
-    public void userid_correct_length() throws InvalidInputException {
+    public void userid_correct_length_mock() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
         String password = "Password1!";
+        webService = createMock(IWebService.class);
+        expect(webService.authenticate(userid, password)).andReturn(true);
+        //expect(webService.getStatusInfo(anyString())).times(0);
+        replay(webService);
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
+        //String unexpectedObjectType = "Not Allowed";
+       // String unexpectedObjectName = "Not Allowed";
 
         //act
-        String result = solarSystemInformation.getUserid();
+        //String resultObjectType = solarSystemInformation.getObjectType();
+       // String resultObjectName = solarSystemInformation.getObjectName();
 
         //assert
-        assertEquals(userid, result);
+        //assertNotEquals(unexpectedObjectName,resultObjectName);
+        //assertNotEquals(unexpectedObjectType,resultObjectType);
+        verify(webService);
     }
 
     @Test
@@ -63,12 +74,16 @@ class SolarSystemInformationTest {
         String userid = "ASA95677";
         String password = "Password1!";
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
+        String expectedObjectType = "Not Allowed";
+        String expectedObjectName = "Not Allowed";
 
         //act
-        String result = solarSystemInformation.getUserid();
+        String resultObjectType = solarSystemInformation.getObjectType();
+        String resultObjectName = solarSystemInformation.getObjectName();
 
         //assert
-        assertFalse(result.matches("^[A-Z]{2}[0-9]{4}"));
+        assertEquals(expectedObjectName, resultObjectName);
+        assertEquals(expectedObjectType, resultObjectType);
     }
 
     @Test
@@ -77,12 +92,16 @@ class SolarSystemInformationTest {
         String userid = "ASA0000";
         String password = "Password1!";
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
+        String expectedObjectType = "Not Allowed";
+        String expectedObjectName = "Not Allowed";
 
         //act
-        String result = solarSystemInformation.getUserid();
+        String resultObjectType = solarSystemInformation.getObjectType();
+        String resultObjectName = solarSystemInformation.getObjectName();
 
         //assert
-        assertFalse(result.matches("^[A-Z]{2}[0-9]{4}(?!0000)"));
+        assertEquals(expectedObjectName, resultObjectName);
+        assertEquals(expectedObjectType, resultObjectType);
     }
 
     @Test
@@ -106,13 +125,17 @@ class SolarSystemInformationTest {
         String userid = "AS9567";
         String password = "Passw1!";
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String expectedoutput = "Password Invalid";
+        String expectedObjectType = "Not Allowed";
+        String expectedObjectName = "Not Allowed";
 
         //act
-        String result = solarSystemInformation.getPassword();
+        String resultObjectType = solarSystemInformation.getObjectType();
+        String resultObjectName = solarSystemInformation.getObjectName();
+
 
         //assert
-        assertEquals(expectedoutput, result);
+        assertEquals(expectedObjectName, resultObjectName);
+        assertEquals(expectedObjectType, resultObjectType);
     }
 
     @Test
@@ -135,17 +158,40 @@ class SolarSystemInformationTest {
     public void password_incorrect_format() throws InvalidInputException {
         //arrange
         String userid = "AS9567";
-        String password = "Password111";
+        String password = "Passw111!";
         SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
-        String expectedoutput = "Password Invalid";
+        String expectedObjectType = "Not Allowed";
+        String expectedObjectName = "Not Allowed";
 
         //act
-        String result = solarSystemInformation.getPassword();
+        String resultObjectType = solarSystemInformation.getObjectType();
+        String resultObjectName = solarSystemInformation.getObjectName();
+
 
         //assert
-        assertEquals(expectedoutput, result);
-        assertFalse(result.matches("^(?=.{10,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$"));
+        assertEquals(expectedObjectName, resultObjectName);
+        assertEquals(expectedObjectType, resultObjectType);
     }
+
+    @Test
+    public void authentication_carried_out() throws InvalidInputException {
+        //arrange
+        String userid = "AS9567";
+        String password = "Password1!";
+        SolarSystemInformation solarSystemInformation = new SolarSystemInformation(userid, password,webService);
+        String expectedObjectType = "Not Allowed";
+        String expectedObjectName = "Not Allowed";
+
+        //act
+        String resultObjectType = solarSystemInformation.getObjectType();
+        String resultObjectName = solarSystemInformation.getObjectName();
+
+
+        //assert
+        assertEquals(expectedObjectName, resultObjectName);
+        assertEquals(expectedObjectType, resultObjectType);
+    }
+
     @Test
     public void AOC_format_correct() throws InvalidInputException {
         //arrange

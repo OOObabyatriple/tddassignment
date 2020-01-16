@@ -1,15 +1,13 @@
 package com.qa.tddassignment;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 public class SolarSystemInformation {
     private final HappyWebServiceStub webService = new HappyWebServiceStub();
     private String userid;
     private String password;
     private String astronomicalObjectClassificationCode;
-    private String objectType;
+    private String objectType = "";
     private String objectName;
     private boolean exists;
     private int orbitalPeriod;
@@ -20,7 +18,6 @@ public class SolarSystemInformation {
 
     public SolarSystemInformation(String userid, String password, IWebService webService) throws InvalidInputException {
         if (userid.length() != 6 && !userid.matches("^[A-Z]{2}[0-9]{4}(?!0000)")) {
-
             AuthentcationFailedSetFieldsToDefaults();
             return;
         }
@@ -35,10 +32,11 @@ public class SolarSystemInformation {
             AuthentcationFailedSetFieldsToDefaults();
             return;
         }
+        //initialiseAOCDetails();
     }
 
     private void AuthentcationFailedSetFieldsToDefaults() {
-        setAstronomicalObjectClassificationCode("0");
+        setAstronomicalObjectClassificationCode(" ");
         setObjectType("Not Allowed");
         setObjectName("Not Allowed");
         setExists(false);
